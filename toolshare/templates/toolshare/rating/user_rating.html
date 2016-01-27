@@ -1,0 +1,52 @@
+{% include 'toolshare/header.inc' with active_tab='borrow' %}
+
+<h2>Would you like to rate the user?</h2>
+
+<div class="col-lg-12">
+<button type="button" class="btn btn-default btn-lg" onclick="location.href='/toolshare/user/rate/{{borrowerID}}/1'">
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button>
+</div>
+<br><br><br><br>
+
+<div class="col-lg-12">
+<button type="button" class="btn btn-default btn-lg" onclick="location.href='/toolshare/user/rate/{{borrowerID}}/2'">
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button>
+</div>
+<br><br><br><br>
+
+<div class="col-lg-12">
+<button type="button" class="btn btn-default btn-lg" onclick="location.href='/toolshare/user/rate/{{borrowerID}}/3'">
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button>
+</div>
+<br><br><br><br>
+
+<div class="col-lg-12">
+<button type="button" class="btn btn-default btn-lg" onclick="location.href='/toolshare/user/rate/{{borrowerID}}/4'">
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button>
+</div>
+<br><br><br><br>
+
+<div class="col-lg-12">
+<button type="button" class="btn btn-default btn-lg" onclick="location.href='/toolshare/user/rate/{{borrowerID}}/5'">
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button>
+</div>
+<br><br><br><br>
+
+<td><a href="/toolshare/user/rate/{{borrowerID}}/" class="btn btn-primary">Skip</a>
+
+{% include 'toolshare/footer.inc' %}

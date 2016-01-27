@@ -1,0 +1,64 @@
+{% include 'toolshare/header.inc' with active_tab='tools' %}
+
+<h2>Tools</h2>
+
+{% if toolsList|length > 0 %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Tool Location</th>
+        <th>Tool Description</th>
+        <th>Tool Status</th>
+         <th></th>
+         <th></th>
+         <th></th>
+         <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for tool in toolsList %}
+      <tr>
+        <td>{{tool.name }}</td>
+        <td>{{tool.get_shareLocation_display }}</td>
+        <td>{{tool.toolDescription }}</td>
+        {% if tool.isActive %}
+        <td><span class="glyphicon glyphicon-ok-circle"></span> Active </td>
+        {% else %}
+        <td><span class="glyphicon glyphicon-ban-circle"></span> Deactivated </td>
+        {% endif %}
+
+          {% if tool.borrowerID == None %}
+            <td><a href="/toolshare/tools/edit/{{tool.id}}" class="btn btn-primary">Edit Tool</a></td>
+            {% if tool.isActive %}
+                <td><a href="/toolshare/tools/deactivate/{{tool.id}}" class="btn btn-warning"><span class="glyphicon glyphicon-ban-circle"></span>  Deactivate Tool</a></td>
+            {% else %}
+                <td><a href="/toolshare/tools/activate/{{tool.id}}" class="btn btn-success"><span class="glyphicon glyphicon-ok-circle"></span>  Activate Tool</a></td>
+            {% endif %}
+             <td><a href="/toolshare/tools/delete/{{tool.id}}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete Tool</a></td>
+          {% else %}
+            <td>Checked out:</td><td>{{ tool.borrowerID.name }}</td><td></td>
+          {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+<h3>You dont have any tools in the system yet, please add your tools.</h3>
+{% endif %}
+
+{% if form %}
+<hr>
+<H3>Add Tool</H3>
+
+<form action="/toolshare/tools/add" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<br>
+	{{ form.as_p }}
+	<br>
+	<input type="submit" class="btn btn-primary glyphicon" value="&#xe081; Add"/>
+</form>
+{% endif %}
+
+{% include 'toolshare/footer.inc' %}

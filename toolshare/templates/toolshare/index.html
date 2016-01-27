@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Welcome to Toolshare</title>
+    <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  	<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  </head>
+<body>
+<style>
+body {
+    background-image: url({% static 'images/background.jpeg' %});
+    background-size: auto;
+    background-repeat: no-repeat;
+}
+</style>
+  <h1>&nbsp;</h1>
+  <div class="login-card">
+   <h2>Welcome to ToolShare</h2><br>
+  <form action="/toolshare/login" method="POST">
+      {% csrf_token %}
+    <input type="text" class="form-control" name="username" placeholder="Username">
+    <input type="password" class="form-control" name="password" placeholder="Password">
+    <input type="submit" name="login" class="login login-submit" value="Login">
+  </form>
+
+  <div class="login-help">
+    <a href="/toolshare/register">Register</a>
+  </div>
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+
+{% if message or error %}
+  {% if message %}
+  <script type="text/javascript" src="{% static 'js/notie.js' %}"></script>
+    <script language="javascript">
+    $(document).ready(function() {
+      notie.alert(1, '{{ message }}', 1.5 );
+    });
+    </script>
+  {% endif %}
+  {% if error %}
+  <script type="text/javascript" src="{% static 'js/notie.js' %}"></script>
+    <script language="javascript">
+    $(document).ready(function() {
+      notie.alert(3, '{{ error }}', 2 );
+    });
+    </script>
+  {% endif %}
+{% endif %}
+
+  </body>
+</html>

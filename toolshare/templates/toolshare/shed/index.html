@@ -1,0 +1,42 @@
+{% include 'toolshare/header.inc' with active_tab='shed' %}
+
+
+<h3>Welcome to our community shed, "{{shed.name}}" located at: {{shed.address}}</h3>
+
+{% if request.user.tsuser.zoneID.adminID == request.user.tsuser %}
+	<p><a href="/toolshare/shed/edit" class="btn btn-primary" role="button">Edit Community Shed</a></p>
+{% endif %}
+
+{% if toolsList|length > 0 %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Tool Description</th>
+        <th>Tool Status</th>
+        <th>Tool Owner</th>
+         <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for tool in toolsList %}
+      <tr>
+        <td>{{tool.name }}</td>
+        <td>{{tool.toolDescription }}</td>
+        {% if tool.isActive%}
+        <td><span class="glyphicon glyphicon-ok-circle"></span> Active </td>
+        {% else %}
+        <td><span class="glyphicon glyphicon-ban-circle"></span> Deactviated </td>
+        {% endif %}
+        <td>{{tool.ownerID.name }}</td>
+        <td><a href="/toolshare/borrow/request/{{tool.id}}" class="btn btn-primary">Request Borrow Tool</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <h3>There are currently no tools added to this Community Shed</h3>
+{% endif %}
+
+{% include 'toolshare/footer.inc' %}

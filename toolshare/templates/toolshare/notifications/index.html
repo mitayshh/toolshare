@@ -1,0 +1,21 @@
+{% include 'toolshare/header.inc' with active_tab='profile' %}
+<div class="container">
+ 
+<h2>Notifications</h2>
+ <a href="notifications/readall">Mark all as read</a>
+<br/>
+{% if notifications|length > 0 %}
+<div class="list-group">
+{% for n in notifications %}
+<div class="{% if n.read == False %}list-group-item" style="background-color:#BDC7D8;"{% else %}list-group-item"{% endif %}>
+<a class="list-group-item-text" href="/toolshare/notifications/{{ n.id }}" id="{{ n.id }}">{{ n.sender }}: {{ n.message }}</a>
+</div>
+
+{% endfor %}
+</div>
+{% else %}
+<div>NONE</div>
+{% endif %}
+</div>
+
+{% include 'toolshare/footer.inc' %}

@@ -1,0 +1,54 @@
+{% include 'toolshare/header.inc' with active_tab='share' %}
+
+<h2>Viewing status of Share Request!</h2>
+
+<div>Done: {% if bR.isDone %}YES{% else %}NO{% endif %}</div>
+<div>Status: {% if bR.isApproved = None %}PENDING DECISION{% elif bR.isApproved = False %}DENIED{% elif bR.isApproved = True %}APPROVED{% endif %}</div>
+<div>&nbsp;</div>
+<div>Borrower: {{ bR.borrowerID.name }}</div>
+<div>Tool Name: {{ bR.toolID.name }}</div>
+<div>From: {{ bR.borrowDate }}</div>
+<div>To: {{ bR.dueDate }}</div>
+<div>&nbsp;</div>
+<div>Borrower Comments: {{ bR.borrower_arrangements }}</div>
+
+{% if bR.owner_arrangements|length > 0 %}
+<div>&nbsp;</div>
+<div>Your Comments: {{ bR.owner_arrangements }}</div>
+{% endif %}
+
+{% if bR.isApproved = None %}
+	<div>&nbsp;</div>
+
+<script type="text/javascript">
+
+  function denyRequest(requestID) {
+    var commentID = 'comment'+requestID
+    var aComment = document.getElementById(commentID).value
+
+    if (aComment == '') {
+        notie.alert(3, "Unable to deny share request: Comments required", 2 );
+    } else {
+        var hrefText = '/toolshare/share/deny/' + requestID + '/' + aComment;
+        document.getElementById("deny").href = hrefText;
+    }
+  }
+
+</script>
+
+	<table><tr>
+	<td><a href="/toolshare/share/approve/{{bR.id}}" class="btn btn-primary">Approve</a>
+       	<a href="javascript: void(0)" class="btn btn-primary" onclick="denyRequest({{bR.id}})" id="deny">Deny</a>
+    </td>
+    <td><textarea class="form-control" rows="5" id="comment{{bR.id}}" placeholder="Rejecting a request requires comments"></textarea></td>
+    </tr></table>
+{% elif bR.isApproved = True %}
+	<div>&nbsp;</div>
+	<div>Tool Returned: {% if bR.didBorrowerReturn %}YES{% else %}NOT YET{% endif %}</div>
+	{% if bR.didBorrowerReturn and bR.isDone = False %}
+		<div>&nbsp;</div>
+		<a href="/toolshare/share/done/{{ bR.id }}" class="btn btn-primary">Confirm Tool Returned</a>
+	{% endif %}
+{% endif %}
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/share' back_desc='Back to Share Requests' %}

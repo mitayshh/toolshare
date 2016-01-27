@@ -1,0 +1,12 @@
+<p>{{ message }}</p>
+
+<form action="" method="POST">
+
+	{% csrf_token %}
+
+	{{ form }}
+
+     <p><a href="/toolshare/login">Login</a></p>
+	
+    <p><a href="/toolshare/register">Registier</a></p>
+</form>

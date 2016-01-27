@@ -1,0 +1,27 @@
+{% include 'toolshare/header.inc' with active_tab='borrow' %}
+
+<h2>Viewing status of Borrow Request!</h2>
+
+<div>Done: {% if bR.isDone %}YES{% else %}NO{% endif %}</div>
+<div>Status: {% if bR.isApproved = None %}PENDING DECISION{% elif bR.isApproved = False %}DENIED{% elif bR.isApproved = True %}APPROVED{% endif %}</div>
+<div>&nbsp;</div>
+<div>Tool Name: {{ bR.toolID.name }}</div>
+<div>Tool Owner: {{ bR.toolID.ownerID.name }}</div>
+<div>From: {{ bR.borrowDate }}</div>
+<div>To: {{ bR.dueDate }}</div>
+<div>&nbsp;</div>
+<div>Your Comments: {{ bR.borrower_arrangements }}</div>
+
+{% if bR.owner_arrangements|length > 0 %}
+<div>&nbsp;</div>
+<div>Owner Comments: {{ bR.owner_arrangements }}</div>
+{% endif %}
+
+{% if bR.isApproved = True %}
+<div>Tool Returned: {% if bR.didBorrowerReturn %}YES{% else %}NOT YET{% endif %}</div>
+{% if bR.didBorrowerReturn = False and bR.isDone = False %}
+<a href="/toolshare/borrow/return/{{ bR.id }}" class="btn btn-primary">Return Tool</a>
+{% endif %}
+{% endif %}
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/borrow' back_desc='Back to My Borrow Requests' %}

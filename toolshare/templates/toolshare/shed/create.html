@@ -1,0 +1,16 @@
+{% include 'toolshare/header.inc' with active_tab='tools' %}
+
+<h2>Creating your Community Shed!</h2>
+
+<form action="/toolshare/shed/create" method="POST" enctype="multipart/form-data">
+
+	{% csrf_token %}
+
+	<table>
+	{{ form.as_table }}
+    </table>
+
+	<p><input type="submit" class="btn btn-primary" value="Create"/></p>
+</form>
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/shed' back_desc='Back to Community Shed' %}

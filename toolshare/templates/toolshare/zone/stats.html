@@ -1,0 +1,59 @@
+{% include 'toolshare/header.inc' with active_tab='sharezone' %}
+
+<h1>Welcome to ShareZone Statistics!</h1>
+
+<h2>Active Lenders:</h2>
+{% if active_lenders.count > 0 %}
+	{% for u in active_lenders %}
+	<ul><li>{{u.toolID__ownerID__name}} => {{u.toolID__ownerID__count}}</li></ul>
+	{% endfor %}
+{% else %}
+	NONE
+{% endif %}
+
+<h2>Active Borrowers:</h2>
+{% if active_borrowers.count > 0 %}
+	{% for u in active_borrowers %}
+	<ul><li>{{u.borrowerID__name}} => {{u.borrowerID__count}}</li></ul>
+	{% endfor %}
+{% else %}
+	NONE
+{% endif %}
+
+<h2>Most Used Tools:</h2>
+{% if most_used_tools.count > 0 %}
+	{% for t in most_used_tools %}
+	<ul><li>{{t.toolID__name}} => {{t.toolID__count}}</li></ul>
+	{% endfor %}
+{% else %}
+	NONE
+{% endif %}
+
+<h2>Recently Borrowed Tools:</h2>
+{% if recent_borrowed_tools.count > 0 %}
+	{% for t in recent_borrowed_tools %}
+	<ul><li>{{t.borrowerID__name}} borrowed "{{t.toolID__name}}" from {{t.toolID__ownerID__name}} on {{t.borrowDate}}</li></ul>
+	{% endfor %}
+{% else %}
+	NONE
+{% endif %}
+
+<h2>Tool Borrowing Stats:</h2>
+<ul><li>Tools Borrowed in the last day: {{tool_borrows_today}}</li></ul>
+<ul><li>Tools Borrowed in the last week: {{tool_borrows_week}}</li></ul>
+<ul><li>Tools Borrowed in the last month: {{tool_borrows_month}}</li></ul>
+<ul><li>Tools Borrowed in the last year: {{tool_borrows_year}}</li></ul>
+
+<h2>User Sharing Stats:</h2>
+<ul><li>Users Shared in the last day: {{user_shares_today}}</li></ul>
+<ul><li>Users Shared in the last week: {{user_shares_week}}</li></ul>
+<ul><li>Users Shared in the last month: {{user_shares_month}}</li></ul>
+<ul><li>Users Shared in the last year: {{user_shares_year}}</li></ul>
+
+<h2>User Borrowing Stats:</h2>
+<ul><li>Users Borrowed in the last day: {{user_borrows_today}}</li></ul>
+<ul><li>Users Borrowed in the last week: {{user_borrows_week}}</li></ul>
+<ul><li>Users Borrowed in the last month: {{user_borrows_month}}</li></ul>
+<ul><li>Users Borrowed in the last year: {{user_borrows_year}}</li></ul>
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/zone' back_desc='Back to ShareZone' %}

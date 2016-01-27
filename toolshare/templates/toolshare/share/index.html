@@ -1,0 +1,62 @@
+{% include 'toolshare/header.inc' with active_tab='share' %}
+
+<script type="text/javascript">
+
+  function denyRequest(requestID) {
+    var commentID = 'comment'+requestID
+    var aComment = document.getElementById(commentID).value
+
+    if (aComment == '') {
+        notie.alert(3, "Unable to deny share request: Comments required", 2 );
+    } else {
+        var hrefText = '/toolshare/share/deny/' + requestID + '/' + aComment;
+        document.getElementById("deny").href = hrefText;
+    }
+  }
+
+</script>
+
+{% if shares|length > 0 %}
+ <tbody>
+     <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Borrow Date</th>
+        <th>Due Date</th>
+        <th>Borrower Arrangements</th>
+        <th>Borrower</th>
+        <th>Action</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+{% for s in shares %}
+    <div id="commentsWarningDiv"></div>
+      <tr>
+        <td>{{s.toolID.name}}</td>
+        <td>{{s.borrowDate}}</td>
+        <td>{{s.dueDate}}</td>
+        <td>{{s.borrower_arrangements}}</td>
+        <td><a href="/toolshare/share/user/profile/{{s.borrowerID.id}}" class="">{{s.borrowerID.name}}</a></td>
+        {% if s.didBorrowerReturn %}
+          <td><a href="/toolshare/share/done/{{s.id}}" class="btn btn-primary">Confirm Tool Returned</a></td>
+          <td><a href="/toolshare/share/notDone/{{s.id}}" class="btn btn-primary">Tool NOT Returned</a></td>
+        {% elif s.isApproved %}
+          <td>Pending Return...</td>
+        {% else %}
+          <td><a href="/toolshare/share/approve/{{s.id}}" class="btn btn-primary">Approve</a>
+          	<a href="javascript: void(0)" class="btn btn-primary" onclick="denyRequest({{s.id}})" id="deny">Deny</a>
+          </td>
+          <td><textarea class="form-control" rows="5" id="comment{{s.id}}" placeholder="Rejecting a request requires comments"></textarea></td>
+        {%endif%}
+          </tr>
+      {% endfor %}
+    </tbody>
+     </table>
+        </tbody>
+{% else %}
+	<h2>No share requests were made to you.</h2>
+{% endif %}
+
+{% include 'toolshare/footer.inc' %}

@@ -1,0 +1,33 @@
+{% include 'toolshare/header.inc' with active_tab='borrow' %}
+
+{% if borrows|length > 0%}
+    <tbody>
+     <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Tool Owner</th>
+        <th>Borrow Date</th>
+        <th>Due Date</th>
+        <th>Owner Arrangements</th>
+      </tr>
+    </thead>
+{% for b in borrows %}
+    <tr>
+    <td> <a href="/toolshare/borrow/edit/{{b.id}}">{{b.toolID.name}}</a></td>
+    <td><a href="/toolshare/borrow/user/profile/{{b.toolID.ownerID.id}}" class="">{{b.toolID.ownerID.name}}</a></td>
+    <td> {{b.borrowDate}} </td>
+    <td> {{b.dueDate}} </td>
+    <td> {{b.owner_arrangements}} </td>
+    {% if b.isApproved %}
+        <td><a href="/toolshare/borrow/return/{{b.id}}" class="btn btn-primary">Return Tool</a>
+    {% endif %}
+    </tr>
+{% endfor %}
+     </table>
+    </tbody>
+{% else %}
+ <h2>No borrow requests were made by you.</h2>
+{% endif %}
+
+{% include 'toolshare/footer.inc' %}

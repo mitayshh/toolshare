@@ -1,0 +1,67 @@
+{% include 'toolshare/header.inc' with active_tab='profile' %}
+<style>
+hr {border: 1px dashed #000}
+</style>
+<h1>{{tsuser.name}}'s Profile</h1>
+<br>
+<h4>Name : <b>{{ tsuser.name }}</b></h4>
+<h4>Username : <b>{{ tsuser.user.username }}</b></h4>
+<h4>Email: <b>{{ tsuser.user.email }}</b></h4>
+<h4>Address: <b>{{ tsuser.address }}</b></h4>
+<h4>Zipcode: <b>{{ tsuser.zoneID.zipcode }}</b></h4>
+<br>
+
+<br>
+      <code>One Star Ratings:  {{userRating.vote_one}}</code>
+      <br>
+    <div style="width:25%; height:25%">
+    <div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{vote_one}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+<code>Two Star Ratings:  {{userRating.vote_two}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_two}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+<code>Three Star Ratings:  {{userRating.vote_three}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_three}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+<code>Four Star Ratings:  {{userRating.vote_four}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_four}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+
+<code>Five Star Ratings:  {{userRating.vote_five}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_five}}%;">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+</div>
+
+	<div>&nbsp;</div>
+	<center><div><a href="{{back_url}}">{{ back_desc }}</a></div></center>
+	<div>&nbsp;</div>
+

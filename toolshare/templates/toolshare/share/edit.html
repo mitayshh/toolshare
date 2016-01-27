@@ -1,0 +1,16 @@
+{% include 'toolshare/header.inc' with active_tab='share' %}
+
+{% if form %}
+
+<h2>Please enter the information to update the request!</h2>
+
+<form action="/toolshare/share/edit/{{ bR.id }}" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<br>
+	<p><input type="submit" class="btn btn-primary" value="Edit"/></p>
+</form>
+
+{% endif %}
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/share' back_desc='Back to Share Requests' %}

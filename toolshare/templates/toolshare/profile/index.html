@@ -1,0 +1,35 @@
+{% include 'toolshare/header.inc' with active_tab='profile' %}
+<style>
+hr {border: 1px dashed #000}
+</style>
+<h1>{{request.user.tsuser.name}}'s Profile</h1>
+<br>
+<h4>Name : <b>{{ request.user.tsuser.name }}</b></h4>
+<h4>Username : <b>{{ request.user.tsuser.user.username }}</b></h4>
+<h4>Email: <b>{{ request.user.tsuser.user.email }}</b></h4>
+<h4>Address: <b>{{ request.user.tsuser.address }}</b></h4>
+<h4>Zipcode: <b>{{ request.user.tsuser.zoneID.zipcode }}<b/></h4>
+<br>
+<a href="/toolshare/profile/edit" class="btn btn-primary">Edit Profile</a>
+<br>
+<br>
+<hr>
+<h2>Recently Borrowed Tools:</h2>
+{% if stats.recent_borrowed_tools.count > 0 %}
+	{% for u in stats.recent_borrowed_tools %}
+	<ul><li>"{{u.toolID__name}}" from {{u.toolID__ownerID__name}} on {{u.borrowDate}}</li></ul>
+	{% endfor %}
+{% else %}
+	NONE
+{% endif %}
+
+<h2>Recently Shared Tools:</h2>
+{% if stats.recent_shared_tools.count > 0 %}
+	{% for u in stats.recent_shared_tools %}
+	<ul><li>"{{u.toolID__name}}" to {{u.borrowerID__name}} on {{u.borrowDate}}</li></ul>
+	{% endfor %}
+{% else %}
+	NONE
+{% endif %}
+
+{% include 'toolshare/footer.inc' %}

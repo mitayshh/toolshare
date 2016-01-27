@@ -1,0 +1,105 @@
+{% include 'toolshare/header.inc' with active_tab='sharezone' %}
+
+<script type="text/javascript">
+
+  function searchAll() {
+    var hrefText = '/toolshare/zone/search/all/'+document.getElementById('searchTerm').value;
+    document.getElementById("all").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "All <span class='caret'></span>";
+  }
+
+  function searchByToolName() {
+    var hrefText = '/toolshare/zone/search/name/'+document.getElementById('searchTerm').value;
+    document.getElementById("toolName").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "Tool Name <span class='caret'></span>";
+  }
+
+  function searchByToolOwner() {
+    var hrefText = '/toolshare/zone/search/owner/'+document.getElementById('searchTerm').value;
+    document.getElementById("toolOwner").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "Tool Owner <span class='caret'></span>";
+  }
+
+  function searchByToolDescription() {
+    var hrefText = '/toolshare/zone/search/description/'+document.getElementById('searchTerm').value;
+    document.getElementById("toolDescription").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "Tool Description <span class='caret'></span>";
+  }
+
+</script>
+
+
+<h1>Welcome to your ShareZone!</h1>
+
+<hr>
+
+
+<div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control" aria-label="..." placeholder="Search for users" id="searchTerm" value={{searchText}}>
+      <div class="input-group-btn">
+          <button id="searchButton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="Search Category">{{searchCategory}} <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a href='' onclick="searchAll()" id="all">All</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href='' onclick="searchByToolName()" id="toolName">Username</a></li>
+          <li><a href='' onclick="searchByToolOwner()" id="toolOwner">Name</a></li>
+          <li><a href='' onclick="searchByToolDescription()" id="toolDescription">Address</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+
+<br><br>
+<hr>
+
+{% if usersList|length > 0 %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Average Rating</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for tsUser in usersList %}
+      <tr>
+        <td><a href="/toolshare/zone/users/profile/{{tsUser.id}}" class="">{{tsUser.user.username }}</a></td>
+        <td>{{tsUser.name }}</td>
+        <td>{{tsUser.user.email }}</td>
+        <td>{{tsUser.averageRating }}</td>
+
+        {% if not tsUser.isUserAnAdmin %}
+          {% if tsUser.user.is_active %}
+            {% if not tsUser.isUserInTransaction %}
+              <td><a href="/toolshare/zone/users/manage/{{tsUser.id}}" class="btn btn-danger">Disable User</a></td>
+            {% else %}
+              <td></td>
+            {% endif %}
+            <td><a href="/toolshare/zone/users/admin/{{tsUser.id}}" class="btn btn-success">Make Admin</a></td>
+          {% else %}
+            <td><a href="/toolshare/zone/users/manage/{{tsUser.id}}" class="btn btn-success">Enable User</a></td>
+            <td></td>
+          {% endif %}
+        {% else %}
+          <td>HAS ADMIN PRIVILEGES</td>
+        {% endif %}
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+
+    <h3>No users have joined your Sharezone.</h3>
+
+{% endif %}
+
+<div><center><a href="/toolshare/zone/statistics">ShareZone Statistics</a></center></div>
+
+{% include 'toolshare/footer.inc' %}

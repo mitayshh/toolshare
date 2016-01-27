@@ -1,0 +1,56 @@
+{% include 'toolshare/header.inc' with active_tab='borrow' %}
+
+<h2>Please enter the information to update the request!</h2>
+
+<form action="/toolshare/borrow/edit/{{ bR.id }}" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<p><label for="borrow">Borrow Date Range:</label><input class="form-control" name="borrow" type="text"></p>
+	<br>
+	{{ form.as_p }}
+	<br>
+	<p><input type="submit" class="btn btn-primary" value="Edit"/></p>
+{% if bR.isApproved == None %}
+	<br><p><a class="btn btn-primary" href="/toolshare/borrow/abort/{{bR.id}}">Abort Borrow Request</a></p>
+{% endif %}
+</form>
+
+<script type="text/javascript">
+var d_start = '{{ bR.borrowDate|date:"m/d/Y H:i" }}';
+var d_stop = '{{ bR.dueDate|date:"m/d/Y H:i" }}';
+$('input[name="borrow"]').val('{{ bR.borrowDate|date:"m/d/Y H:i" }}' + ' - ' + '{{ bR.dueDate|date:"m/d/Y H:i" }}');
+
+$(function() {
+    $('input[name="borrow"]').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 5,
+		timePicker24Hour: true,
+		startDate: d_start,
+		endDate: d_stop,
+		minDate: new Date(),
+		autoUpdateInput: false,
+        locale: {
+            format: 'MM/DD/YYYY H:mm',
+            cancelLabel: 'Clear',
+        }
+    });
+
+{% if bR.isApproved == None %}
+	$('input[name="borrow"]').on('apply.daterangepicker', function(ev, picker) {
+		$(this).val(picker.startDate.format('MM/DD/YYYY H:mm') + ' - ' + picker.endDate.format('MM/DD/YYYY H:mm'));
+	   	$('input[name="borrowDate"]').val(picker.startDate.format('MM/DD/YYYY H:mm'));
+	   	$('input[name="dueDate"]').val(picker.endDate.format('MM/DD/YYYY H:mm'));
+	});
+	$('input[name="borrow"]').on('cancel.daterangepicker', function(ev, picker) {
+		$(this).val('');
+	   	$('input[name="borrowDate"]').val('');
+	   	$('input[name="dueDate"]').val('');
+	});
+{% else %}
+	$('input[name="borrow"]').on('apply.daterangepicker', function(ev, picker) {
+		notie.alert(3, 'Unable to edit borrow: Cannot change dates after owner decision!', 2);
+	});
+{% endif %}
+});
+</script>
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/borrow' back_desc='Back to My Borrow Requests' %}

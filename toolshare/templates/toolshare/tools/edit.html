@@ -1,0 +1,52 @@
+{% include 'toolshare/header.inc' with active_tab='tools' %}
+
+<img src ="/{{form.instance.toolImage.url}}" height="100" width="150">
+
+<form action="/toolshare/tools/edit/{{tool.id}}" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p><label for="blackout">Blackout Range:</label><input class="form-control" name="blackout" type="text"></p>
+	<br>
+	<div><input type="submit" class="btn btn-primary" value="Save Changes"/>
+</form>
+
+<script type="text/javascript">
+{% if tool.blackout_start %}
+var d_start = '{{ tool.blackout_start|date:"m/d/Y H:i" }}';
+var d_stop = '{{ tool.blackout_end|date:"m/d/Y H:i" }}';
+$('input[name="blackout"]').val('{{ tool.blackout_start|date:"m/d/Y H:i" }}' + ' - ' + '{{ tool.blackout_end|date:"m/d/Y H:i" }}');
+{% else %}
+var d_start = new Date();
+var d_stop = d_start;
+{% endif %}
+
+$(function() {
+    $('input[name="blackout"]').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 5,
+		timePicker24Hour: true,
+		startDate: d_start,
+		endDate: d_stop,
+		minDate: new Date(),
+		autoUpdateInput: false,
+        locale: {
+            format: 'MM/DD/YYYY H:mm',
+            cancelLabel: 'Clear',
+        }
+    });
+
+	$('input[name="blackout"]').on('apply.daterangepicker', function(ev, picker) {
+		$(this).val(picker.startDate.format('MM/DD/YYYY H:mm') + ' - ' + picker.endDate.format('MM/DD/YYYY H:mm'));
+	   	$('input[name="blackout_start"]').val(picker.startDate.format('MM/DD/YYYY H:mm'));
+	   	$('input[name="blackout_end"]').val(picker.endDate.format('MM/DD/YYYY H:mm'));
+	});
+	$('input[name="blackout"]').on('cancel.daterangepicker', function(ev, picker) {
+		$(this).val('');
+	   	$('input[name="blackout_start"]').val('');
+	   	$('input[name="blackout_end"]').val('');
+	});
+});
+
+</script>
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/tools' back_desc='Back to My Tools' %}

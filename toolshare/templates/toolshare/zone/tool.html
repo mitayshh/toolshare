@@ -1,0 +1,91 @@
+{% include 'toolshare/header.inc' with active_tab='sharezone' %}
+<style>
+#pic{float:left;margin-right: 30px;}
+/*#rate{float:left;}*/
+</style>
+<h1>Tool Information</h1>
+
+<div id="pic"><img src ="/{{tool.toolImage.url}}" height="200" width="250"></div>
+<br>
+<h4>Name: <b>{{tool.name}}</b></h4>
+<h4>Owner: <b>{{tool.ownerID.name}}</b></h4>
+<h4>Location: <b>{{tool.get_shareLocation_display}}</b></h4>
+<h4>Description: <b>{{tool.toolDescription}}</b></h4>
+
+
+<div>
+    <!-- OWNER SHOULD NOT BE ALLOWED TO REQUEST HIS OWN TOOL OR ADD THE TOOL TO HIS WISHLIST-->
+
+    {% if tool.ownerID.id != request.user.tsuser.id %}
+
+        {% if tool.borrowerID == null %}
+            <a href="/toolshare/borrow/request/{{tool.id}}" class="btn btn-primary" role="button">Request Borrow Tool</a>
+        {% else %}
+
+            {% if inWishlist %}
+                <a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-heart">  Added to Wishlist </span></a>
+            {% else %}
+                <a href="/toolshare/wishlist/add/{{tool.id}}" class="btn btn-primary"><span class="glyphicon glyphicon-heart-empty">  Add to Wishlist </span></a>
+            {% endif %}
+
+        {% endif %}
+
+    {% endif %}
+</div>
+
+    <br>
+    <br>
+    <br>
+    <p id="rate"><b>Rating:{{toolRating.avgRating}}</b></p>
+      <code>One Star Ratings:  {{toolRating.vote_one}}</code>
+      <br>
+    <div style="width:25%; height:25%">
+    <div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{vote_one}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+<code>Two Star Ratings:  {{toolRating.vote_two}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_two}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+<code>Three Star Ratings:  {{toolRating.vote_three}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_three}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+<code>Four Star Ratings:  {{toolRating.vote_four}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_four}}%">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+
+<code>Five Star Ratings:  {{toolRating.vote_five}}</code>
+<br>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{vote_five}}%;">
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+      <span class="glyphicon glyphicon-star-empty"></span>
+  </div>
+</div>
+</div>
+
+    <div>&nbsp;</div>
+	<center><div><a href="{{back_url}}">{{ back_desc }}</a></div></center>
+	<div>&nbsp;</div>

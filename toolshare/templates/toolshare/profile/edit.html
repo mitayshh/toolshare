@@ -1,0 +1,15 @@
+{% include 'toolshare/header.inc' with active_tab='profile' %}
+
+<h1>Edit Your Profile</h1>
+
+<form action="/toolshare/profile/edit" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<br>
+	{{ form.as_p }}
+	<br>
+	<input type="submit" class="btn btn-primary" value="Save"/>
+</form>
+<br>
+<p><a href="/toolshare/profile/password/change" class="btn btn-primary">Change Password</a></p>
+
+{% include 'toolshare/footer.inc' with back_url='/toolshare/profile' back_desc='Back to My Profile' %}

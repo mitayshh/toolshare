@@ -1,0 +1,130 @@
+{% include 'toolshare/header.inc' with active_tab='sharezone' %}
+<style>
+#pic{margin-left: 1%;float:left;text-align: center;font-style: bold; font-size:1.5em;margin-bottom: 100px;}
+#pic a:hover{text-decoration: none;}
+img:hover{border:3px solid #242F3D;}
+.col-lg-6 {width: 100%;}
+</style>
+
+<script type="text/javascript">
+
+  function searchAll() {
+    var hrefText = '/toolshare/zone/search/all/'+document.getElementById('searchTerm').value+"?page=1";
+    document.getElementById("all").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "All <span class='caret'></span>";
+  }
+
+  function searchByToolName() {
+    var hrefText = '/toolshare/zone/search/name/'+document.getElementById('searchTerm').value+"?page=1";
+    document.getElementById("toolName").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "Tool Name <span class='caret'></span>";
+  }
+
+  function searchByToolOwner() {
+    var hrefText = '/toolshare/zone/search/owner/'+document.getElementById('searchTerm').value+"?page=1";
+    document.getElementById("toolOwner").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "Tool Owner <span class='caret'></span>";
+  }
+
+  function searchByToolDescription() {
+    var hrefText = '/toolshare/zone/search/description/'+document.getElementById('searchTerm').value+"?page=1";
+    document.getElementById("toolDescription").href = hrefText;
+    document.getElementById("searchButton").innerHTML = "Tool Description <span class='caret'></span>";
+  }
+
+</script>
+
+
+<h1>Welcome to your ShareZone!</h1>
+<br>
+<div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control" aria-label="..." placeholder="Tool Search" id="searchTerm" value="{{searchText}}">
+      <div class="input-group-btn">
+          <button id="searchButton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="Search Category">{{searchCategory}} <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a href='' onclick="searchAll()" id="all">All</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href='' onclick="searchByToolName()" id="toolName">Tool Name</a></li>
+          <li><a href='' onclick="searchByToolOwner()" id="toolOwner">Tool Owner</a></li>
+          <li><a href='' onclick="searchByToolDescription()" id="toolDescription">Tool Description</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+
+{% if toolsList|length > 0 %}
+<p><div class="pagination">
+    <span class="step-links">Search Results:&nbsp;&nbsp;
+        {% if toolsList.has_previous %}
+            <a href="?page={{ toolsList.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            page {{ toolsList.number }} of {{ toolsList.paginator.num_pages }}.
+        </span>
+
+        {% if toolsList.has_next %}
+            <a href="?page={{ toolsList.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div></p>
+<hr>
+{% for tool in toolsList %}
+<div style="margin:5%;width:20%;"  id="pic">
+    <a href="/toolshare/zone/tool/{{tool.id}}">
+      <img src="/{{tool.toolImage.url}}" class="img-thumbnail" alt="{{tool.name}}" style="width: 200px; height:200px;">
+      <h3>{{tool.name}}</h3>
+      <h4 style="color:black;">Rating: {% if tool.averageRating > 0 %}
+										  {% if tool.averageRating >= 0.5 %}
+											  <span class="glyphicon glyphicon-star"  style= "line-height:0"aria-hidden="true"></span>
+										  {% endif %}
+										  {% if tool.averageRating >= 1.5 %}
+											<span class="glyphicon glyphicon-star" style= "line-height:0" aria-hidden="true"></span>
+										  {% endif %}
+										  {% if tool.averageRating >= 2.5 %}
+										    <span class="glyphicon glyphicon-star" style= "line-height:0" aria-hidden="true"></span>
+										  {% endif %}
+										  {% if tool.averageRating >= 3.5 %}
+											<span class="glyphicon glyphicon-star" style= "line-height:0" aria-hidden="true"></span>
+										  {% endif %}
+										  {% if tool.averageRating >= 4.5 %}
+											<span class="glyphicon glyphicon-star" style= "line-height:0" aria-hidden="true"></span>
+										  {% endif %}
+										  {{ tool.averageRating }}
+									   {% else %}
+											  No Rating
+									{% endif %}</h4>
+    </a>
+</div>
+{% endfor %}
+<br style="clear:both;" />
+<hr>
+<p><div class="pagination">
+    <span class="step-links">
+        {% if toolsList.has_previous %}
+            <a href="?page={{ toolsList.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ toolsList.number }} of {{ toolsList.paginator.num_pages }}.
+        </span>
+
+        {% if toolsList.has_next %}
+            <a href="?page={{ toolsList.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div></p>
+{% else %}
+
+  {% if didSearch %}
+    <h3>No tools match your search query. Try again with a different category.</h3>
+  {% else %}
+    <h3>No one else is sharing their tools currently, please check again later.</h3>
+  {% endif %}
+
+{% endif %}
+
+<div><center><a href="/toolshare/zone/statistics">ShareZone Statistics</a></center></div>
+
+{% include 'toolshare/footer.inc' %}
